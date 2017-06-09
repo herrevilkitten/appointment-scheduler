@@ -15,6 +15,9 @@ npm run build
 npm run serve
 ```
 
+A demo application is available at https://herrevilkitten.github.io/appointment-scheduler/
+
+
 ## NOTES
 
 This is a basic VueJS applcation, written as a single component.  It makes use of a few View components and libraries.
