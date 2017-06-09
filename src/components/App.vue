@@ -47,7 +47,6 @@
 import AwesomeMask from 'awesome-mask';
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import MaskedInput from 'vue-masked-input';
 
 import { TimeSlot, Appointment } from '../state';
 
