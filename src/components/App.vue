@@ -72,7 +72,10 @@ export default class extends Vue {
     openDialog(slot: TimeSlot) {
         this.currentSlot = slot;
         if (slot.appointment) {
-            this.appointment = slot.appointment;
+            this.appointment = {
+                name: slot.appointment.name,
+                phone: slot.appointment.phone,
+            }
         } else {
             this.appointment = {
                 name: '',
@@ -83,10 +86,14 @@ export default class extends Vue {
     }
 
     saveAppointment() {
-        this.currentSlot.appointment = {
-            name: this.appointment.name,
-            phone: this.appointment.phone
-        };
+        if (this.appointment.name.trim().length === 0 && this.appointment.phone.trim().length === 0) {
+            this.currentSlot.appointment = undefined;
+        } else {
+            this.currentSlot.appointment = {
+                name: this.appointment.name,
+                phone: this.appointment.phone
+            };
+        }
         this.closeDialog();
     }
 
