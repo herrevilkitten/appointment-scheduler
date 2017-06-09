@@ -11,7 +11,7 @@
                     </md-input-container>
                     <md-input-container>
                         <label>Phone</label>
-                        <md-input type="tel" v-model="appointment.phone"></md-input>
+                        <md-input type="tel" v-mask="'(999) 999-9999'" v-model="appointment.phone"></md-input>
                     </md-input-container>
                 </form>
             </md-dialog-content>
@@ -26,35 +26,37 @@
             <h2 class="md-title" style="flex: 1">Appointment Scheduler</h2>
         </md-toolbar>
     
-        <md-layout md-gutter>
-            <md-layout md-flex="33" md-flex-offset="33">
-                <md-table>
-                    <md-table-header>
-                        <md-table-row>
-                            <md-table-head md-numeric id="tableHeading">Time</md-table-head>
-                        </md-table-row>
-                    </md-table-header>
-                    <md-table-body>
-                        <md-table-row v-for="slot in timeSlots" :key="slot.hour">
-                            <md-table-cell @click.native="openDialog(slot)" class="hourCell" md-numeric :class="{hasAppointment: slot.appointment != null}">
-                                {{slot.label}}
-                            </md-table-cell>
-                        </md-table-row>
-                    </md-table-body>
-                </md-table>
-            </md-layout>
-        </md-layout>
+        <md-tabs>
+            <md-tab md-label="Times">
+                <md-list>
+                    <md-list-item v-for="slot in timeSlots" :key="slot.hour" @click.native="openDialog(slot)" class="selectable" :class="{hasAppointment: slot.appointment != null}">
+                        <span class="hourCell">
+                            {{slot.label}}
+                        </span>
+                        <span class="nameCell">
+                            {{ slot.appointment ? slot.appointment.name: '' }}
+                        </span>
+                    </md-list-item>
+                </md-list>
+            </md-tab>
+        </md-tabs>
     </div>
 </template>
 
 <script lang="ts">
+import AwesomeMask from 'awesome-mask';
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import MaskedInput from 'vue-masked-input';
 
 import { TimeSlot, Appointment } from '../state';
 
 @Component({
-
+    components: {
+    },
+    directives: {
+        mask: AwesomeMask
+    }
 })
 export default class extends Vue {
     appointment = {
@@ -95,12 +97,19 @@ export default class extends Vue {
 </script>
 
 <style>
-.hourCell {
+.selectable {
     cursor: pointer;
 }
 
-.md-table {
-    width: 100%;
+.hourCell {
+    width: 150px;
+    text-align: right;
+    font-family: Courier New, Courier, monospace;
+}
+
+.nameCell {
+    padding-left: 20px;
+    flex: 1;
 }
 
 .hasAppointment {

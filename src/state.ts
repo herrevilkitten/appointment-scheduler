@@ -12,4 +12,3 @@ export interface TimeSlot {
 export interface State {
     slots: TimeSlot[];
 }
-
